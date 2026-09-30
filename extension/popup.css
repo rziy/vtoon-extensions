@@ -1,0 +1,40 @@
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  width: 320px;
+  margin: 0;
+  padding: 14px;
+  font: 13px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: #1e1f22;
+  color: #dbdee1;
+}
+header { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+header img { border-radius: 8px; }
+h1 { margin: 0; font-size: 15px; color: #fff; }
+#status { margin: 2px 0 0; font-size: 12px; color: #b5bac1; display: flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #6b7280; flex: none; }
+.dot.ok { background: #23a55a; }
+.dot.warn { background: #f0b232; }
+.dot.bad { background: #f23f43; }
+.row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 0; border-top: 1px solid #2b2d31; cursor: pointer;
+}
+.label { display: flex; flex-direction: column; }
+.label b { color: #f2f3f5; font-weight: 600; }
+.label small { color: #949ba4; font-size: 11.5px; }
+select {
+  background: #2b2d31; color: #dbdee1; border: 1px solid #3f4147;
+  border-radius: 6px; padding: 5px 6px; font: inherit;
+}
+.switch {
+  appearance: none; -webkit-appearance: none; flex: none;
+  width: 38px; height: 22px; border-radius: 11px; background: #4e5058;
+  position: relative; cursor: pointer; transition: background .15s; margin: 0;
+}
+.switch::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+  border-radius: 50%; background: #fff; transition: transform .15s;
+}
+.switch:checked { background: #ff7f00; }
+.switch:checked::after { transform: translateX(16px); }

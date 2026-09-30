@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>VoraToon Presence</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon48.png" alt="" width="36" height="36">
+    <div>
+      <h1>VoraToon Presence</h1>
+      <p id="status"><span id="dot" class="dot"></span><span id="statusText">Mengecek bridge...</span></p>
+    </div>
+  </header>
+
+  <label class="row">
+    <span class="label"><b>Presence aktif</b><small>Matikan untuk pause total</small></span>
+    <input type="checkbox" id="enabled" class="switch">
+  </label>
+
+  <label class="row">
+    <span class="label"><b>Mode privat</b><small>Sembunyikan judul, chapter, dan tombol</small></span>
+    <input type="checkbox" id="hideTitle" class="switch">
+  </label>
+
+  <label class="row">
+    <span class="label"><b>Hapus saat idle</b><small>Tab tanpa aktivitas selama...</small></span>
+    <select id="idleMinutes">
+      <option value="0">Tidak pernah</option>
+      <option value="5">5 menit</option>
+      <option value="10">10 menit</option>
+      <option value="20">20 menit</option>
+      <option value="30">30 menit</option>
+      <option value="60">60 menit</option>
+    </select>
+  </label>
+
+  <label class="row">
+    <span class="label"><b>Cover manga</b><small>Eksperimental, mungkin tidak muncul</small></span>
+    <input type="checkbox" id="useCover" class="switch">
+  </label>
+
+  <script src="popup.js"></script>
+</body>
+</html>

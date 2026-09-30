@@ -1,0 +1,6 @@
+* text=auto
+# Script Windows harus tetap CRLF supaya jalan setelah download ZIP dari GitHub
+*.bat -text
+*.vbs -text
+*.ps1 -text
+*.png binary
