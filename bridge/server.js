@@ -218,13 +218,17 @@ async function connectDiscord() {
 }
 
 // ---------- HTTP server (lokal saja) ----------
+const EXT_ORIGIN_RE = /^(chrome|moz)-extension:\/\//;
+
 function sendJson(res, status, obj) {
-  const headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
-  };
+  const headers = { "Content-Type": "application/json" };
+  // CORS hanya untuk extension, bukan website lain.
+  if (res.corsOrigin) {
+    headers["Access-Control-Allow-Origin"] = res.corsOrigin;
+    headers["Access-Control-Allow-Headers"] = "Content-Type";
+    headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS";
+    headers["Vary"] = "Origin";
+  }
   res.writeHead(status, headers);
   res.end(status === 204 ? undefined : JSON.stringify(obj));
 }
@@ -236,6 +240,24 @@ const server = http.createServer((req, res) => {
   if (remote && !LOCAL_ADDRS.includes(remote)) {
     sendJson(res, 403, { ok: false, error: "Local connections only" });
     return;
+  }
+
+  // Cegah DNS rebinding: Host harus alamat lokal bridge.
+  const host = String(req.headers.host || "");
+  if (host !== `127.0.0.1:${config.port}` && host !== `localhost:${config.port}`) {
+    sendJson(res, 403, { ok: false, error: "Forbidden host" });
+    return;
+  }
+
+  // Hanya extension yang boleh memanggil bridge. Origin diisi browser dan
+  // tidak bisa dipalsukan oleh halaman web.
+  const origin = req.headers.origin;
+  if (origin) {
+    if (!EXT_ORIGIN_RE.test(origin)) {
+      sendJson(res, 403, { ok: false, error: "Forbidden origin" });
+      return;
+    }
+    res.corsOrigin = origin;
   }
 
   if (req.method === "OPTIONS") {
