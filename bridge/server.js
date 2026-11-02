@@ -1,6 +1,12 @@
 const http = require("http");
 const RPC = require("discord-rpc");
-const config = require("./config");
+let localConfig = {};
+try {
+  localConfig = require("./config.local");
+} catch (e) {
+  if (e.code !== "MODULE_NOT_FOUND") throw e;
+}
+const config = { ...require("./config"), ...localConfig };
 
 // ---------- helpers ----------
 const stamp = () => new Date().toLocaleTimeString();
@@ -13,7 +19,7 @@ function safeText(value, fallback, max = 128) {
 }
 
 if (!config.clientId || String(config.clientId).includes("PASTE_")) {
-  logErr("ERROR: Edit bridge/config.js dan isi Discord Application ID dulu.");
+  logErr("ERROR: Salin bridge/config.local.example.js ke bridge/config.local.js, lalu isi Discord Application ID.");
   process.exit(1);
 }
 

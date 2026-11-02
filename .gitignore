@@ -3,3 +3,4 @@ bridge/bridge.log
 *.log
 .DS_Store
 Thumbs.db
+bridge/config.local.js

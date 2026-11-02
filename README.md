@@ -38,10 +38,17 @@ yang dipakai, dan tidak ada data yang dikirim ke server lain.
 Butuh: [Node.js](https://nodejs.org), Discord Desktop (Stable/PTB/Canary), Chrome atau Brave.
 
 1. Download repo ini (Code, Download ZIP) atau `git clone`, simpan di folder permanen.
-2. Buat aplikasi di [Discord Developer Portal](https://discord.com/developers/applications),
-   salin **Application ID**, lalu isi `clientId` di `bridge/config.js`.
+2. Buat aplikasi di [Discord Developer Portal](https://discord.com/developers/applications)
+   dan salin **Application ID**. Salin `bridge/config.local.example.js` menjadi
+   `bridge/config.local.js`, lalu isi `clientId` dengan Application ID tadi.
    Nama aplikasi itulah yang tampil sebagai "Playing ...". Tidak butuh bot token.
-   (Application ID bukan rahasia, aman ada di repo publik.)
+   (`config.local.js` diabaikan Git, jadi pengaturanmu aman saat `git pull`.
+   Application ID juga bukan rahasia.)
+
+   ```
+   Copy-Item bridge\config.local.example.js bridge\config.local.js
+   ```
+
 3. Double-click **`SETUP.bat`**. Ia menginstal dependency, memasang autostart, dan menjalankan
    bridge di background.
 4. Buka `chrome://extensions` (Brave: `brave://extensions`), aktifkan **Developer mode**,
@@ -80,6 +87,8 @@ Log bridge ada di `bridge/bridge.log`.
   - `discordReady:false`: Discord Desktop belum terbuka (bridge coba konek lagi tiap 5 detik).
   - `current:null` padahal sedang membuka VoraToon: extension belum aktif di tab itu.
     Cek `chrome://extensions`, reload extension, lalu refresh tab dengan Ctrl+F5.
+- Bridge langsung berhenti dengan pesan ERROR soal Application ID: kamu belum membuat
+  `bridge/config.local.js`. Salin dari `bridge/config.local.example.js` dan isi `clientId`.
 - Di Discord: Settings, Activity Privacy, aktifkan "Share your detected activities".
 - Jangan buka Discord Stable dan Canary bersamaan, presence bisa masuk ke yang tidak kamu lihat.
 - Tombol tidak terlihat di profil kamu sendiri. Itu bawaan Discord, hanya terlihat oleh orang lain.
@@ -94,7 +103,9 @@ memakai ikon aplikasi. Opsi ini mati secara default.
 
 ## Kustomisasi
 
-- `bridge/config.js`: `clientId`, `port`, `largeImageKey`, `showButton`.
+- `bridge/config.local.js`: `clientId`, `largeImageKey`, `largeImageText`, `showButton`.
+  Nilai yang tidak diisi memakai default dari `bridge/config.js`. Jangan ubah `port`
+  kecuali kamu juga mengubah port di extension, karena extension memakai 1738.
 - Judul diambil dari halaman (h1, og:title, judul tab, breadcrumb) dan hanya dipakai kalau
   cocok dengan slug URL (huruf besar/kecil dan tanda baca diabaikan). Kalau tidak cocok,
   dipakai judul dari slug. Lihat `resolveTitle` di `extension/content.js`.
